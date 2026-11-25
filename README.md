@@ -1,109 +1,111 @@
-# A Million Dominoes
+<h1 align="center">A Million Dominoes</h1>
 
-A handwritten-digit classifier compiled into a field of 1,026,525 dominoes and simulated in the browser. You draw a digit, the drawing tips a set of starter dominoes, and the chain reaction ends with one of ten domino pictures toppling to show the answer.
+<p align="center">
+  Draw a digit. A million falling dominoes work out which number you wrote.
+</p>
 
-![The winning picture: a field of fallen dominoes showing the digit 3](docs/finale.jpg)
+<p align="center">
+  <a href="https://github.com/otomop/a-million-dominoes/actions/workflows/ci.yml"><img src="https://github.com/otomop/a-million-dominoes/actions/workflows/ci.yml/badge.svg?branch=main" alt="CI"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT licence"></a>
+  <img src="https://img.shields.io/badge/built%20with-Claude%20Code-d97757.svg" alt="Built with Claude Code">
+</p>
 
-## Overview
+<p align="center">
+  <a href="docs/how-it-works.md">How it works</a> ·
+  <a href="docs/evidence.md">Evidence</a> ·
+  <a href="docs/design-notes.md">Design notes</a> ·
+  <a href="docs/format.md">File format</a>
+</p>
 
-The classifier is a neural network in which every unit is a single two-input logic gate. A compiler lays that circuit out as dominoes: lines for wires, joins for OR, head-on collisions for blocking, and small bridges where lines cross. The page loads the compiled layout, computes which domino falls when for the visitor's drawing, and renders the run as an animation that can be played, scrubbed and explored.
+<p align="center">
+  <img src="docs/finale.jpg" alt="A field of fallen dominoes showing the digit 3" width="49%">
+  <img src="docs/race.jpg" alt="Mid-run: one arm's logic has fallen and its lane is racing to the centre" width="49%">
+</p>
 
-The project has two parts:
+> [!NOTE]
+> **This project is AI-generated.** The code, tests and documentation were written by Claude (Anthropic) using [Claude Code](https://claude.com/claude-code), under human direction. The automated tests and the checks in [docs/evidence.md](docs/evidence.md) pass, but the code has not been independently reviewed.
 
-- **`compiler/`** (Python) trains the network, places the dominoes, verifies the result and writes the machine file.
-- **`web/`** (TypeScript, WebGL2) loads that file, runs the simulation and draws it.
+## About
+
+A Million Dominoes is a handwritten-digit classifier compiled into a field of 1,026,525 dominoes and simulated in the browser. The classifier is a neural network in which every unit is a single logic gate, so it can be laid out as lines, junctions and bridges of dominoes. Your drawing tips a set of starter dominoes, and the chain reaction ends with one of ten domino pictures toppling to show the answer.
+
+## Highlights
+
+- **A learned circuit, not a hand-built one.** A 7,500-gate network trained on handwritten digits reads 97% of digits from writers it never saw.
+- **Compiled layout.** A compiler places every domino, sizes every gate for timing, and verifies that no two dominoes overlap.
+- **Verified end to end.** The domino field gives the network's own answer on all 1,797 test digits.
+- **Runs in the browser.** A run is computed in a fraction of a second; the whole field renders with WebGL2 and can be played, scrubbed and explored.
+- **Small.** The compiled machine is a 1 MB download. No server, no framework.
 
 ## Quick start
 
+Requires Node.js 22 or later and a browser with WebGL2.
+
 ```bash
-cd web
+git clone https://github.com/otomop/a-million-dominoes.git
+cd a-million-dominoes/web
 npm install
 npm run dev
 ```
 
-Open the printed address, draw a digit or pick an example, and press **Topple**. Drag to orbit, scroll to zoom, and use the timeline to move through the run. The **How it works** panel walks through each part of the machine.
+Open the printed address, draw a digit or pick an example, and press **Topple**.
+
+| Control | Action |
+|---|---|
+| Drag | Orbit the camera |
+| Scroll | Zoom |
+| <kbd>Space</kbd> | Play or pause |
+| <kbd>←</kbd> <kbd>→</kbd> | Step through the run |
+| **How it works** | Guided walkthrough of each part of the machine |
 
 ## How it works
 
-1. **Input.** The drawing is normalised and reduced to an 8×8 grid of ink levels. Comparing each cell with three thresholds gives 192 bits.
-2. **Starters.** Each bit controls a group of starter dominoes (3,506 in total). The starters whose condition holds are tipped at the same moment. This is the machine's only input.
-3. **Logic.** Signals travel as falling lines. Every bit uses two lines, one for 1 and one for 0, so that "no" is distinguishable from "not yet". Two lines merging form an OR; a line knocked down from its far end blocks a later signal. All of the network's gates are built from those two gadgets.
-4. **Counting.** Each digit has 50 output gates. A race lane passes them in turn and takes a detour of about six seconds for each gate that voted against the digit, so the lane with the most votes finishes first.
-5. **Finish.** The first lane to arrive triggers a common line that closes the other nine lanes' gates, then topples a field of dominoes painted with its digit.
+1. **Input.** The drawing is reduced to an 8×8 grid of ink levels, which gives 192 bits.
+2. **Starters.** Each bit controls a group of starter dominoes. Those whose condition holds are tipped together; this is the machine's only input.
+3. **Logic.** Signals travel as falling lines, two per bit. Merging lines form an OR, and a line knocked down from its far end blocks a later signal.
+4. **Counting.** Each digit has a race lane that takes a detour for every gate that voted against it, so the digit with the most votes finishes first.
+5. **Finish.** The first lane home closes the other nine lanes' gates and topples a picture of its digit.
 
-A longer description is in [docs/how-it-works.md](docs/how-it-works.md).
+See [docs/how-it-works.md](docs/how-it-works.md) for the full description.
 
-![Mid-run: one arm's logic has fallen and its lane is racing toward the centre](docs/race.jpg)
-
-## Design notes
-
-A few points that shaped the design:
-
-- **One-way junctions.** A wave entering a junction also travels back up the other inputs. Every gadget entry therefore uses an offset, angled domino that passes a wave forwards and misses it backwards.
-- **Blocking gates.** The blocker has to reach the shared segment before the signal does. The gate is laid out so that the signal, not the blocker, makes the U-turn, and the compiler lengthens each segment until the blocker's worst-case arrival leads by at least 0.55 s.
-- **No global routing.** Sharing a gate's output between consumers would require around two million line crossings. Each output gate instead gets a private tree of gates, duplicated as needed: 2,303 gate instances for a 7,500-gate network.
-- **No padding wire.** Tree leaves are starter dominoes and can stand anywhere, so a shallow branch starts further along instead of waiting behind a long wire. At each gate the later-arriving operand is used as the signal and the earlier one as the blocker.
-- **Timing by measurement.** The race lanes and the finish are calibrated from simulation. The compiler builds the field, runs each lane alone, measures its delays, and rebuilds with the lane starts and finish delays corrected.
-- **Geometry-derived simulation.** The page does not simulate rigid bodies. It runs an event model whose hit graph is derived from the placed geometry alone and whose delays were calibrated against rigid-body tests of each gadget. The graph is stored in the machine file, so the browser runs the same automaton the validation ran.
-- **Rendering.** Each domino's fall time is uploaded once per run and the animation is computed in the vertex shader from a single time value, which makes scrubbing free. Distant tiles are drawn at reduced detail.
-
-## Results
+## Verification
 
 | Check | Result |
 |---|---|
-| Network accuracy, writers not seen in training | 97.05% of 1,797 digits (UCI optdigits test set); lowest class 93.3% |
-| Network accuracy, other datasets | 96.1% on UCI pendigits test; 93.8% on 5,000 MNIST test digits (their training splits were used in training) |
-| Field output equals network output | 1,797 of 1,797 test digits, with exactly one picture toppling |
-| Same, with ±10% random variation on every domino-to-domino delay | 1,797 of 1,797 and 1,795 of 1,797 in two runs; the misses were vote ties in which two pictures toppled |
-| Overlapping dominoes | None |
-| Gadgets in rigid-body physics with ±1 mm, ±2° placement noise | Split, merge, bridge and vote section: no failures in 100 or more trials each. Blocking gate: 798 of 800 at design timing |
-| Browser simulation against the Python reference | Identical fall times on 16 reference runs; identical input bits on 40 reference drawings |
+| Accuracy on writers not seen in training | 97.05% of 1,797 digits |
+| Field output equals network output | 1,797 of 1,797 |
+| Same, with ±10% random timing variation | 1,797 and 1,795 of 1,797 in two runs |
+| Gadgets in rigid-body physics with placement noise | 99.75% to 100% per gadget type |
+| Browser simulation against the Python reference | Identical on all reference runs |
 
-Methods and full figures are in [docs/evidence.md](docs/evidence.md).
+Methods, full figures and limitations are in [docs/evidence.md](docs/evidence.md) and [docs/design-notes.md](docs/design-notes.md).
 
-| Quantity | Value |
-|---|---|
-| Dominoes | 1,026,525 |
-| Field size | 283 m × 244 m |
-| Blocking gates / merges / bridges | 2,024 / 1,628 / 1,678 |
-| Network | 7,500 gates in five layers (2,000, 2,000, 2,000, 1,000, 500) |
-| Run time at physical domino speed | about six minutes |
-| Machine file | 1.0 MB compressed |
+## Project structure
 
-## Limitations
+```
+a-million-dominoes/
+├── compiler/              Python: training, layout compiler, validation
+│   ├── dominoes/          the compiler package
+│   ├── physics/           rigid-body gadget tests (Rapier)
+│   ├── tests/             end-to-end tests
+│   └── models/            the trained network
+├── web/                   TypeScript and WebGL2 page
+│   ├── src/
+│   └── public/            the compiled machine and example digits
+└── docs/                  design, evidence, prior art, file format
+```
 
-- The complete field has been run only in the event model. Rigid-body physics was applied to each gadget type, not to the whole layout.
-- Under placement noise a blocking gate succeeds about 99.75% of the time, so a physical build of this size would be expected to contain a few faulty gates per run.
-- Accuracy was measured on public datasets passed through the page's normalisation, not on drawings collected from users.
-- Rendering performance was measured on one high-end GPU only.
+## Development
 
-## Relation to neural networks
+**Page**
 
-- **Inference is a fixed computation.** Nothing in the field learns. Training happened beforehand; what remains is a fixed structure that maps an input to an output, as in any deployed network.
-- **The rules were learned.** The gates were chosen by gradient descent on labelled examples. During training each unit is a weighted mixture of the 16 two-input Boolean functions; afterwards each is fixed to its most likely one.
-- **The substrate is interchangeable.** The same gates give the same answers as code, as a chip, or as dominoes. Only the speed differs.
-- **Gates are cheap.** Conventional networks rely on large numbers of multiplications. Logic-gate networks are an active research direction for much cheaper inference, and the same property makes this layout possible.
-- **Decisions are counts of evidence.** Each class accumulates votes and the largest count wins, so the margin between first and second place is visible in every run.
+```bash
+cd web
+npm test          # unit tests and comparison with the Python reference
+npm run build     # type-check and production build
+```
 
-## Physical scale
-
-For reference, a physical build of this layout would need a level floor of about 283 m × 244 m, roughly eight tonnes of dominoes at 8 g each, 1,678 bridges, and 3,506 actuators to tip the starters simultaneously. At three seconds per domino, placement alone is about 860 person-hours. The weight and placement rate are assumptions.
-
-## Repository layout
-
-| Path | Contents |
-|---|---|
-| `compiler/dominoes/` | Training, layout compiler, event simulation, validation and export |
-| `compiler/physics/` | Rigid-body gadget tests (Rapier, driven from Python) |
-| `compiler/tests/` | End-to-end tests on a small random network |
-| `compiler/models/final.npz` | The trained network |
-| `web/` | The page |
-| `web/public/machine.bin.gz` | The compiled machine ([format](docs/format.md)) |
-| `docs/` | Design description, evidence, prior art, file format |
-
-## Reproducing the build
-
-Compiler (Python 3.11 or later):
+**Compiler** (Python 3.11 or later)
 
 ```bash
 cd compiler
@@ -111,26 +113,30 @@ python -m venv .venv
 source .venv/bin/activate        # Windows: .venv\Scripts\activate
 pip install numpy scipy numba pytest
 pytest -q
+```
+
+To rebuild the machine file from the trained network (about five minutes):
+
+```bash
 python -m dominoes.build --net models/final.npz --out ../web/public --report ../docs/validation.json
 ```
 
-The build takes about five minutes, most of it spent checking all 1,797 test digits three times. Retraining the network requires the public datasets, which `dominoes/prepare_data.py` downloads; sources and licences are listed in that file.
+Retraining the network requires the public datasets, which `dominoes/prepare_data.py` downloads.
 
-Page:
+## Documentation
 
-```bash
-cd web
-npm test
-npm run build
-```
+- [How it works](docs/how-it-works.md): the network, the gadgets, the layout and the timing
+- [Evidence](docs/evidence.md): what was tested, how, and the results
+- [Design notes](docs/design-notes.md): design decisions, relation to neural networks, physical scale, limitations
+- [Prior art](docs/prior-art.md): related projects and what differs here
+- [File format](docs/format.md): the compiled machine file
 
-## Prior work and credits
+## Acknowledgements
 
 - Differentiable logic gate networks: Petersen, Borgelt, Kuehne and Deussen (2022). The implementation here is independent.
 - Datasets: UCI Optical Recognition of Handwritten Digits and UCI Pen-Based Recognition of Handwritten Digits (CC BY 4.0); MNIST (CC BY-SA 3.0).
 - Physics tests: [Rapier](https://rapier.rs) (Apache-2.0).
-- Related projects and what differs here: [docs/prior-art.md](docs/prior-art.md).
 
-## Licence
+## License
 
-MIT. See [LICENSE](LICENSE).
+[MIT](LICENSE)
