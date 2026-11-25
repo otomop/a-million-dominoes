@@ -190,7 +190,7 @@ export const copy = {
         heading: 'One line can block another',
         body: [
           'Two lines share a short stretch, entering it from opposite ends. If the blocker gets there first, it knocks the stretch down backwards, and the signal arrives to find nothing left standing to push. If the blocker never comes, the signal passes.',
-          'OR, blocking and the two-line trick are enough to build any yes-or-no rule. The rules themselves were not written by a person: a small neural network learned them from thousands of handwritten digits, under the condition that every unit in it end up as one simple gate. A compiler then laid each gate out as dominoes and checked every blocker arrives in time.',
+          'OR, blocking and the two-line trick are enough to build any yes-or-no rule. The rules themselves were not written by a person: a small neural network learned them from tens of thousands of handwritten digits, under the condition that every unit in it end up as one simple gate. A compiler then laid each gate out as dominoes and checked every blocker arrives in time.',
         ],
         figure: 'block',
         stop: 'A blocking gate',
