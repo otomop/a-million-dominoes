@@ -68,6 +68,24 @@ export class InfoDrawer {
       ),
     );
 
+    const { minX, maxX, minY, maxY } = header.bounds;
+    const layers = (header.model as { layers?: number[] }).layers ?? [];
+    const whyFacts = {
+      gates: formatCount(layers.reduce((sum, width) => sum + width, 0)),
+      dominoes: formatCount(header.count),
+      pitches: ((((maxX - minX) / 1000) * ((maxY - minY) / 1000)) / (105 * 68)).toFixed(0),
+    };
+    const why = h(
+      'section',
+      { class: 'info-section why' },
+      h('h3', { text: copy.info.why.heading }),
+      h('p', { text: copy.info.why.intro }),
+      ...copy.info.why.points.map((point) =>
+        h('p', {}, h('strong', { text: point.lead }), ` ${point.text(whyFacts)}`),
+      ),
+    );
+    const stepsHeading = h('h3', { class: 'steps-heading', text: copy.info.stepsHeading });
+
     const tour = header.tour ?? [];
     const steps = copy.info.steps.map((step, index) => {
       const stopName = 'stop' in step ? step.stop : undefined;
@@ -111,6 +129,8 @@ export class InfoDrawer {
         { class: 'drawer-body' },
         h('p', { class: 'info-intro', text: copy.info.intro }),
         totals,
+        why,
+        stepsHeading,
         ...steps,
         real,
       ),

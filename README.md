@@ -31,6 +31,17 @@ The long version, with the layout and timing methods, is in [docs/how-it-works.m
 
 ![Mid-run: one arm's logic has fallen and its lane is racing toward the centre](docs/race.jpg)
 
+## Why it is worth knowing
+
+The dominoes are slow and enormous on purpose. They put a few things about today's AI out on a floor where you can see them.
+
+- **A trained network is a fixed machine.** Nothing on the floor learns. The learning happened earlier, in software; what is left is a fixed layout that turns an input into an answer. Chatbots and image generators work the same way: a long training, then a frozen calculation run again for every word or picture.
+- **The rules were learned, not written.** Nobody told the machine what a 7 looks like. A program showed it tens of thousands of labelled digits and nudged it slightly after each one. That nudging, gradient descent, is how every modern network is trained. A gate cannot be nudged, so during training each unit was a blend of all sixteen possible gates, and at the end each settled on its strongest.
+- **It does not matter what it is made of.** The same 7,500 learned gates give the same answers as code, as a chip, or as dominoes. A chip's switches flip in under a billionth of a second; a domino takes about a thirtieth of a second. Speed is the reason AI runs on silicon.
+- **Gates are the cheapest thing a computer can do.** Ordinary networks are built from multiplications, billions of them per word for a large chatbot, which is why AI needs so much hardware and power. Logic-gate networks are a real line of research into doing the same job far more cheaply; the paper that introduced them reports over a million digit images a second on one processor core.
+- **It decides by weighing evidence, and it can be wrong.** Each digit collects votes and the most votes wins. The race shows how close it was. Every modern network works like this underneath, including the ones that sound certain.
+- **You can see what a small skill costs.** Reading one digit takes a million dominoes and ten football pitches. The networks in the news are many millions of times larger.
+
 ## The machine in numbers
 
 | | |

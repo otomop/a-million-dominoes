@@ -1,4 +1,3 @@
-import { Sound } from './audio';
 import { computeView, OrbitCamera, type Framing, type Pose, type View } from './camera/camera';
 import { OrbitControls } from './camera/controls';
 import { Director } from './camera/director';
@@ -43,7 +42,6 @@ export class App {
   private readonly camera: OrbitCamera;
   private readonly director: Director;
   private readonly playback = new Playback();
-  private readonly sound = new Sound();
   private readonly sim: SimClient;
   private readonly drawPanel: DrawPanel;
   private readonly race: RacePanel;
@@ -114,13 +112,8 @@ export class App {
       h('span', { class: 'button-icon', html: icons.info }),
       h('span', { text: copy.info.button }),
     );
-    const soundButton = h('button', {
-      class: 'icon-button',
-      html: icons.soundOff,
-      attrs: { type: 'button', 'aria-label': copy.sound.turnOn, 'aria-pressed': 'false' },
-    });
     root.append(
-      h('div', { class: 'top-actions' }, infoButton, soundButton),
+      h('div', { class: 'top-actions' }, infoButton),
       this.drawPanel.element,
       this.race.element,
       this.timeline.element,
@@ -164,13 +157,6 @@ export class App {
       );
       if (window.matchMedia(SMALL_SCREEN).matches) this.info.close();
     };
-    soundButton.addEventListener('click', () => {
-      this.sound.setEnabled(!this.sound.enabled);
-      const on = this.sound.enabled;
-      soundButton.innerHTML = on ? icons.soundOn : icons.soundOff;
-      soundButton.setAttribute('aria-pressed', String(on));
-      soundButton.setAttribute('aria-label', on ? copy.sound.turnOff : copy.sound.turnOn);
-    });
     window.addEventListener('keydown', this.onKey);
     // Coming back to the tab, draw at once rather than wait for something to move.
     document.addEventListener('visibilitychange', () => (this.lastDrawn = ''));
@@ -240,7 +226,6 @@ export class App {
   /** Run the machine on the given input bits and start playing the result. */
   private async topple(bits: Uint8Array): Promise<void> {
     this.drawPanel.setBusy(true);
-    this.sound.wake();
     try {
       const result = await this.sim.run(bits);
       const run = analyseRun(this.scene, result);
@@ -251,7 +236,6 @@ export class App {
       this.director.setRun(run);
       this.race.setRun(run);
       this.timeline.setRun(run, this.playback.end);
-      this.sound.setRun(run, this.scene.arm);
       this.debug?.note(`sim ${result.elapsed.toFixed(0)} ms`);
       this.root.dataset.state = 'run';
       this.setSheet('closed');
@@ -362,7 +346,6 @@ export class App {
       });
       this.race.update(playback.time);
     }
-    this.sound.update(playback.time, playback.playing, speed);
   };
 
   /** Trade resolution for frame rate on GPUs that cannot keep up. It never goes back up. */

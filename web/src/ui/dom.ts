@@ -34,12 +34,6 @@ export const icons = {
   play: svg('<path d="M8 5.5v13l10.5-6.5z" fill="currentColor" stroke-width="1.2"/>'),
   pause: svg('<path d="M8.5 5.5v13M15.5 5.5v13" stroke-width="2.6"/>'),
   replay: svg('<path d="M4.5 12a7.5 7.5 0 1 0 2.3-5.4"/><path d="M4.5 4.5v4.2h4.2"/>'),
-  soundOn: svg(
-    '<path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z" fill="currentColor" stroke-width="1.2"/><path d="M15.5 9a4.2 4.2 0 0 1 0 6M18 6.5a7.8 7.8 0 0 1 0 11"/>',
-  ),
-  soundOff: svg(
-    '<path d="M4 9.5v5h3.5L12 18.5v-13L7.5 9.5z" fill="currentColor" stroke-width="1.2"/><path d="M16 9.5l5 5M21 9.5l-5 5"/>',
-  ),
   info: svg('<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.6v.2" stroke-width="2"/>'),
   close: svg('<path d="M6 6l12 12M18 6L6 18"/>'),
   follow: svg(

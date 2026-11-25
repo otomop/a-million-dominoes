@@ -727,6 +727,18 @@ body {
   color: var(--ink);
 }
 
+.why strong {
+  color: var(--ink);
+  font-weight: 650;
+}
+
+.steps-heading {
+  margin: 28px 0 0;
+  padding-top: 18px;
+  border-top: 1px solid var(--hairline);
+  font: 500 19px/1.2 var(--font-title);
+}
+
 .info-section p + p {
   margin-top: 8px;
 }

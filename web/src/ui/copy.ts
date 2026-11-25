@@ -1,5 +1,12 @@
 /** Every user-facing string on the page, in one place so the copy can be edited without touching code. */
 
+/** Numbers from the machine file that the 'why' section quotes. */
+export interface WhyFacts {
+  gates: string;
+  dominoes: string;
+  pitches: string;
+}
+
 export const copy = {
   title: 'A Million Dominoes',
   tagline: 'Draw a digit. A million falling dominoes work out which number you wrote.',
@@ -76,13 +83,6 @@ export const copy = {
     minutes: (m: number, s: number) => (m > 0 ? `${m} min ${s} s` : `${s} s`),
   },
 
-  sound: {
-    on: 'Sound on',
-    off: 'Sound off',
-    turnOn: 'Turn sound on',
-    turnOff: 'Turn sound off',
-  },
-
   info: {
     button: 'How it works',
     close: 'Close',
@@ -98,6 +98,44 @@ export const copy = {
     showMe: 'Show me',
     intro:
       'Nothing here is steered by a computer while it runs. One push at the start, and after that every domino falls only because another domino hit it.',
+    why: {
+      heading: 'Why this is worth knowing',
+      intro:
+        'The dominoes are slow and enormous on purpose. They put a few things about today’s AI out on a floor where you can see them, instead of inside a chip.',
+      points: [
+        {
+          lead: 'A trained network is a fixed machine.',
+          text: () =>
+            'Nothing on this floor learns. The learning happened earlier, in software, and what is left is a fixed layout that turns an input into an answer. The systems behind chatbots and image generators work the same way: a long training, then a frozen calculation that is run again for every word or picture. Here you can watch one run of such a calculation from start to finish.',
+        },
+        {
+          lead: 'The rules were learned, not written.',
+          text: () =>
+            'Nobody told this machine what a 7 looks like. A program showed it tens of thousands of handwritten digits with the right answers and, after each one, nudged the network slightly towards getting it right. That nudging, called gradient descent, is how every modern neural network is trained. A gate cannot be nudged, because it either is an AND or it is not, so during training each unit was a blend of all sixteen possible gates, and at the end each settled on its strongest. It was then tested on writers it had never seen, and read 97 in 100 of their digits.',
+        },
+        {
+          lead: 'It does not matter what it is made of.',
+          text: (f: WhyFacts) =>
+            `The same ${f.gates} learned gates give the same answers as code in this browser, as a chip, or as dominoes. A chip’s switches flip in less than a billionth of a second; a domino takes about a thirtieth of a second to knock over the next. Speed is the reason AI runs on silicon. There is no other ingredient.`,
+        },
+        {
+          lead: 'Gates are the cheapest thing a computer can do.',
+          text: () =>
+            'Ordinary networks are built from multiplications of decimal numbers, and a large chatbot does billions of them for every word. That is why AI needs so much hardware and electricity. Networks made only of logic gates are a real line of research into doing the same job far more cheaply, because gates are what chips are made of already: the researchers who introduced them reported one classifying over a million digit images a second on a single processor core. It is also the only kind of network simple enough to lay out as dominoes.',
+        },
+        {
+          lead: 'It decides by weighing evidence, and it can be wrong.',
+          text: () =>
+            'The machine never knows the answer. Each digit collects votes, and the most votes wins. The race display shows how close it was: a wide margin means the drawing was clear, a narrow one means it could easily have gone the other way. Every modern network works like this underneath, including the ones that sound certain.',
+        },
+        {
+          lead: 'You can see what a small skill costs.',
+          text: (f: WhyFacts) =>
+            `Reading one handwritten digit takes ${f.dominoes} dominoes and a floor the size of ${f.pitches} football pitches. The networks in the news are many millions of times larger than this one. Much of what separates this machine from them is scale.`,
+        },
+      ],
+    },
+    stepsHeading: 'How it works, step by step',
     /** The walkthrough. `stop` names a place on the machine's tour; `figure` a diagram in figures.ts. */
     steps: [
       {
