@@ -1,4 +1,4 @@
-import { laneProgress, leadingLane, type RunInfo } from '../machine/run';
+import { laneProgress, leadingLane, yesVotes, type RunInfo } from '../machine/run';
 import { copy } from './copy';
 import { formatCount, h } from './dom';
 
@@ -30,6 +30,7 @@ export class RacePanel {
     private readonly digits: number[],
     private readonly colors: string[],
     private readonly machineCount: number,
+    private readonly timing?: Record<string, number>,
   ) {
     this.rows = digits.map((digit, index) => {
       const fill = h('span', { class: 'lane-fill' });
@@ -97,6 +98,10 @@ export class RacePanel {
         );
       }
     }
+    if (info.winner !== null && winners.length === 1) {
+      const won = yesVotes(info.lanes[info.winner], info.winner, this.timing);
+      if (won) facts.push(copy.result.votes(won.yes, won.total));
+    }
     facts.push(copy.result.fell(formatCount(info.fallen), formatCount(this.machineCount)));
     // How long the answer would take on a real floor: until the panel is down.
     const whole = Math.round(info.panelTo ?? info.duration);
@@ -136,6 +141,11 @@ export class RacePanel {
       ) {
         // Its gap to the winner, once it has reached the line itself.
         note = copy.race.behind(formatSeconds(lane.raceTime - winnerTime));
+      }
+      // Once a lane is home its time says how many of its gates voted yes.
+      if (lane.raceTime !== null && (decided || time >= lane.raceTime)) {
+        const votes = yesVotes(lane, index, this.timing);
+        if (votes) note = copy.race.votes(votes.yes, votes.total);
       }
       if (state !== row.shownState) {
         row.shownState = state;

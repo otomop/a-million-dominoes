@@ -49,7 +49,8 @@ export const ARM_COLORS: Rgb[] = Array.from({ length: 10 }, (_, digit) =>
 /** Fallen dominoes that belong to no digit. */
 export const SHARED_COLOR: Rgb = oklch(0.62, 0.012, 80);
 
-export const IVORY: Rgb = [0.93, 0.885, 0.79];
-export const AMBER: Rgb = oklch(0.8, 0.15, 75);
-export const FOG: Rgb = [0.035, 0.042, 0.058];
-export const GROUND: Rgb = [0.052, 0.056, 0.068];
+export const IVORY: Rgb = [0.9, 0.9, 0.88];
+/** The one accent colour, shared with the page's CSS. */
+export const ACCENT: Rgb = [0.776, 0.945, 0.208];
+export const FOG: Rgb = [0.043, 0.043, 0.047];
+export const GROUND: Rgb = [0.06, 0.06, 0.064];

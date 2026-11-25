@@ -296,3 +296,24 @@ export function rateAt(info: RunInfo, t: number): number {
   const bin = Math.floor(t / info.binSeconds);
   return bin >= 0 && bin < info.rate.length ? info.rate[bin] : 0;
 }
+
+/**
+ * How many of a lane's gates voted yes, worked out from its race time: with
+ * every vote a yes the lane takes `allShort_s` (plus its head-start offset),
+ * and each no adds one detour of `delta_s`.
+ */
+export function yesVotes(
+  track: LaneTrack,
+  laneIndex: number,
+  timing: Record<string, number> | undefined,
+): { yes: number; total: number } | null {
+  const delta = timing?.delta_s;
+  const base = timing?.allShort_s;
+  if (!delta || base === undefined || track.raceTime === null) return null;
+  // The last two checkpoints are the lane's end and its entry to the core, not votes.
+  const total = Math.max(0, track.markCount - 2);
+  const offset = (timing?.eps_s ?? 0) * laneIndex;
+  const against = Math.round((track.raceTime - base - offset) / delta);
+  if (against < 0 || against > total) return null;
+  return { yes: total - against, total };
+}

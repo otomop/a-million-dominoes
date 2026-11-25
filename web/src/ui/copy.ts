@@ -67,6 +67,7 @@ export const copy = {
     leading: 'in front',
     winner: 'first home',
     behind: (seconds: string) => `+${seconds} s`,
+    votes: (yes: number, total: number) => `${yes}/${total}`,
     laneLabel: (digit: number, percent: number) => `Digit ${digit}: ${percent}% of the way`,
   },
 
@@ -81,6 +82,7 @@ export const copy = {
       `${seconds} s ahead of ${runnerUp}, the runner-up`,
     fell: (count: string, total: string) => `${count} of ${total} dominoes fell`,
     realTime: (duration: string) => `${duration} at real speed`,
+    votes: (yes: number, total: number) => `${yes} of its ${total} gates voted yes`,
     minutes: (m: number, s: number) => (m > 0 ? `${m} min ${s} s` : `${s} s`),
   },
 
@@ -262,24 +264,128 @@ export const copy = {
       outro:
         'What carries over unchanged: a network in use is a fixed calculation, its rules came from examples and not from a programmer, and it answers by weighing evidence, so it can be wrong.',
     },
-    real: {
-      heading: 'If you built it for real',
-      intro:
-        'Nobody has. Every kind of piece was tested in a physics simulation with each domino set down about a millimetre and two degrees off; the whole field was not. These figures follow from the layout on this page.',
-      floor: (width: string, depth: string, pitches: string) =>
-        `A floor ${width} by ${depth} metres, about ${pitches} football pitches, smooth and level like a sports hall. Most of it is the empty ground between the arms.`,
-      dominoes: (count: string, tonnes: string) =>
-        `${count} dominoes of the usual toppling size, 48 mm tall. At about 8 grams each that is roughly ${tonnes} tonnes of plastic.`,
-      bridges: (bridges: string, steps: string) =>
-        `${bridges} bridges, each with seven little stair blocks and a deck: ${steps} parts that are not dominoes but only hold some up.`,
-      setup: (hours: string, days: string) =>
-        `Standing them up: at one domino every three seconds, ${hours} hours of work. A crew of twenty would need about ${days} full days if nobody ever knocked one over, and they would. Real builders leave gaps and fill them last.`,
-      precision: (gates: string, misfires: string) =>
-        `Care: with millimetre errors a blocking gate works about 399 times in 400. There are ${gates} of them, so expect about ${misfires} to misfire in a run, and one wrong gate can change the answer. A real build would need placing jigs and wider safety margins than a first attempt gets.`,
-      starters: (starters: string) =>
-        `The push: ${starters} starter dominoes and the ten lane starts, each with its own small pusher (a solenoid, or a pin on a string). The starters are wired to 192 switches set from the drawing, and everything fires together. This is the one part that is not dominoes.`,
-      run: (minutes: string) =>
-        `One run takes about ${minutes} minutes from the push to the picture. Then roughly half the field is lying down and has to be stood up again by hand before the next drawing.`,
+    kicker: 'Guide',
+    tabsLabel: 'Guide sections',
+    tabs: {
+      walk: 'Walkthrough',
+      why: 'Why it matters',
+      today: 'Today’s networks',
+      build: 'Build it',
+    },
+    stats: { dominoes: 'Dominoes', gates: 'Logic gates', starters: 'Starters', bridges: 'Bridges' },
+    /** The five phases of a run, and the walkthrough steps (counted from 0) each one covers. */
+    phases: [
+      { name: 'Input', steps: [0, 1] },
+      { name: 'Logic', steps: [2, 3, 4, 5] },
+      { name: 'Race', steps: [6] },
+      { name: 'Decision', steps: [7] },
+      { name: 'Output', steps: [8] },
+    ],
+    phasesLabel: 'Phases of a run',
+    phaseJump: (name: string) => `Go to the ${name} phase`,
+    /** One tag per walkthrough step: what it is called in a neural network. */
+    tags: [
+      'Features',
+      'Input layer',
+      'Activation',
+      'Unit: OR',
+      'Unit: AND, NOT',
+      'Wiring',
+      'Output layer',
+      'Argmax',
+      'Prediction',
+    ],
+    replay: 'Replay the diagram',
+    previous: 'Previous',
+    next: 'Next',
+    stepOf: (n: number, total: number) => `${n} / ${total}`,
+    compare: {
+      here: 'This machine',
+      today: 'Networks today',
+      /** Row i opens to the full explanation in missing.points[i]. */
+      rows: [
+        {
+          label: 'Units',
+          here: 'One logic gate. Yes or no.',
+          today: 'A weighted sum of numbers. A little or a lot.',
+        },
+        {
+          label: 'Learning',
+          here: 'Not on the floor. The network is finished.',
+          today: 'Backpropagation and gradient descent.',
+        },
+        {
+          label: 'Wiring',
+          here: 'Fixed. The same two inputs every time.',
+          today: 'Attention picks what to read, per input.',
+        },
+        {
+          label: 'Input',
+          here: 'An 8 by 8 grid designed by a person.',
+          today: 'Raw pixels or text. Features are learned.',
+        },
+        {
+          label: 'Data',
+          here: 'Labelled digits.',
+          today: 'Mostly unlabelled. Predicts hidden parts.',
+        },
+        {
+          label: 'Output',
+          here: 'One of ten labels.',
+          today: 'Probabilities. Generates piece by piece.',
+        },
+        {
+          label: 'Size',
+          here: 'A few thousand gates. One task.',
+          today: 'Billions of weights. Many tasks.',
+        },
+      ],
+      carriesHeading: 'What carries over unchanged',
+      carries: [
+        'In use, a network is a fixed calculation',
+        'Its rules came from examples, not a programmer',
+        'It weighs evidence, so it can be wrong',
+      ],
+    },
+    build: {
+      intro: 'Nobody has built this. These figures follow from the layout on screen.',
+      floor: {
+        label: 'Floor',
+        value: (width: string, depth: string) => `${width} × ${depth} m`,
+        note: (pitches: string) => `About ${pitches} football pitches, level and smooth.`,
+      },
+      dominoes: {
+        label: 'Dominoes',
+        value: (tonnes: string) => `${tonnes} tonnes`,
+        note: (count: string) => `${count} pieces at 8 grams each.`,
+      },
+      bridges: { label: 'Bridges', note: 'Each has seven stair blocks and a deck.' },
+      pushers: {
+        label: 'Pushers',
+        note: (starters: string, lanes: string) =>
+          `${starters} starters and ${lanes} lane starts, fired together.`,
+      },
+      setup: {
+        label: 'Setting up',
+        value: (hours: string) => `${hours} hours`,
+        note: (days: string) => `At three seconds a domino. ${days} days for a crew of twenty.`,
+      },
+      run: {
+        label: 'One run',
+        value: '6 minutes',
+        note: 'Then about half the field is stood up again by hand.',
+      },
+      reliability: 'Reliability',
+      reliabilityValue: '399 in 400',
+      reliabilityNote: (gates: string, misfires: string) =>
+        `With every domino about a millimetre off, a blocking gate works 399 times in 400. There are ${gates} of them, so expect about ${misfires} to misfire in a run. One wrong gate can change the answer.`,
+      testedHeading: 'What was tested',
+      tested: [
+        'Every kind of gadget, in rigid-body physics, 100 or more trials each.',
+        'The whole field, in the event model, on every test digit.',
+      ],
+      notTested: 'Not done: the whole field as rigid bodies, or any real build.',
+      assumptions: 'The domino weight and the placing speed are assumptions.',
     },
   },
 

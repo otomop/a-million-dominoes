@@ -12,7 +12,7 @@ import { copy } from './ui/copy';
 import { DebugReadout } from './ui/debug';
 import { h, icons } from './ui/dom';
 import { DrawPanel } from './ui/drawpanel';
-import { loadExamples } from './ui/examples';
+import { loadExamples, type Example } from './ui/examples';
 import { InfoDrawer } from './ui/info';
 import { RacePanel } from './ui/race';
 import { Timeline } from './ui/timeline';
@@ -101,7 +101,7 @@ export class App {
 
     // Panels.
     this.drawPanel = new DrawPanel(header.model, header.count);
-    this.race = new RacePanel(this.digits, this.colors, header.count);
+    this.race = new RacePanel(this.digits, this.colors, header.count, header.timing);
     this.timeline = new Timeline();
     this.info = new InfoDrawer(header);
     this.debug = debug ? new DebugReadout(this.renderer.gpuName()) : null;
@@ -157,15 +157,41 @@ export class App {
       );
       if (window.matchMedia(SMALL_SCREEN).matches) this.info.close();
     };
+    this.info.onSeek = (time) => this.playback.seek(time);
     window.addEventListener('keydown', this.onKey);
     // Coming back to the tab, draw at once rather than wait for something to move.
     document.addEventListener('visibilitychange', () => (this.lastDrawn = ''));
 
     loadExamples(header.model.thresholds)
-      .then((examples) => this.drawPanel.setExamples(examples))
+      .then((examples) => {
+        this.drawPanel.setExamples(examples);
+        return this.runDemo(examples, infoButton);
+      })
       .catch((error) => console.warn(error));
 
     requestAnimationFrame(this.frame);
+  }
+
+  /**
+   * `?demo=7&at=0.6&guide=walk` loads an example, runs it and pauses part of
+   * the way through. It exists for taking the screenshots in the README.
+   */
+  private async runDemo(examples: Example[], infoButton: HTMLElement): Promise<void> {
+    const query = new URLSearchParams(location.search);
+    if (!query.has('demo')) return;
+    const example = examples.find((e) => e.digit === Number(query.get('demo')));
+    if (!example) return;
+    this.drawPanel.element
+      .querySelector<HTMLElement>(`[aria-label="${copy.pad.useExample(example.digit)}"]`)
+      ?.click();
+    await this.topple(example.bits);
+    const at = Number(query.get('at') ?? 0);
+    if (at > 0) {
+      this.playback.seek(at * this.playback.end);
+      if (this.playback.playing) this.playback.toggle();
+    }
+    if (query.has('guide')) this.info.open(infoButton, query.get('guide') ?? undefined);
+    window.setTimeout(() => (document.documentElement.dataset.demo = 'ready'), 6000);
   }
 
   /** Add a line to the ?debug readout. */
@@ -235,6 +261,7 @@ export class App {
       this.playback.load(run);
       this.director.setRun(run);
       this.race.setRun(run);
+      this.info.setRun(run);
       this.timeline.setRun(run, this.playback.end);
       this.debug?.note(`sim ${result.elapsed.toFixed(0)} ms`);
       this.root.dataset.state = 'run';
@@ -345,6 +372,7 @@ export class App {
         following: this.director.enabled,
       });
       this.race.update(playback.time);
+      this.info.update(playback.time);
     }
   };
 

@@ -11,6 +11,7 @@
 </p>
 
 <p align="center">
+  <a href="https://otomop.github.io/a-million-dominoes/"><strong>Live demo</strong></a> ·
   <a href="docs/how-it-works.md">How it works</a> ·
   <a href="docs/evidence.md">Evidence</a> ·
   <a href="docs/design-notes.md">Design notes</a> ·
@@ -18,8 +19,12 @@
 </p>
 
 <p align="center">
-  <img src="docs/finale.jpg" alt="A field of fallen dominoes showing the digit 3" width="49%">
-  <img src="docs/race.jpg" alt="Mid-run: one arm's logic has fallen and its lane is racing to the centre" width="49%">
+  <a href="https://otomop.github.io/a-million-dominoes/"><img src="docs/overview.jpg" alt="The whole machine early in a run: ten arms of dominoes around a central finish, with the drawing pad, race display and timeline" width="100%"></a>
+</p>
+
+<p align="center">
+  <img src="docs/finale.jpg" alt="The end of a run: a field of fallen dominoes shows the digit 3, and the race display lists each digit's votes" width="49%">
+  <img src="docs/guide.jpg" alt="The guide open on the walkthrough, with an animated diagram of one line blocking another" width="49%">
 </p>
 
 > [!NOTE]
@@ -40,7 +45,7 @@ The network is a logic gate network: each of its units is a single logic gate. T
 | A unit (neuron) | A logic gate: two lines merging (OR), or one line blocking another | The "Show me" stops in the How it works panel |
 | Layers | Gates feeding gates, up to five in a row between a starter and a vote | The branching logic beside each race lane |
 | Connections | Lines, with small bridges where two must cross | Bridges throughout the arms |
-| Output scores | 50 votes per digit. Each "no" vote delays that digit's race lane | The race display |
+| Output scores | 50 votes per digit. Each "no" vote delays that digit's race lane | The race display, which lists each digit's yes votes once the race is decided |
 | Choosing the answer (argmax) | The first lane to reach the centre closes the other nine | The finish at the centre |
 | Confidence | The winner's lead over the runner-up, in seconds | The result card |
 | Prediction | A field of dominoes that topples to show the digit | The picture panels |
@@ -48,7 +53,7 @@ The network is a logic gate network: each of its units is a single logic gate. T
 
 ## Quick start
 
-Requires Node.js (tested with versions 22 and 24) and a browser with WebGL2.
+The page is live at <https://otomop.github.io/a-million-dominoes/>. To run it locally you need Node.js (tested with versions 22 and 24) and a browser with WebGL2.
 
 ```bash
 git clone https://github.com/otomop/a-million-dominoes.git
@@ -65,7 +70,7 @@ Open the printed address, draw a digit or pick an example, and press **Topple**.
 | Scroll | Zoom |
 | <kbd>Space</kbd> | Play or pause |
 | <kbd>←</kbd> <kbd>→</kbd> | Step through the run |
-| **How it works** | Guided walkthrough, with a note on what each part corresponds to in a neural network |
+| **How it works** | The guide: a nine-step walkthrough with animated diagrams and a note on what each part is in a neural network. Its phase bar follows the run, and pressing a phase jumps the run there |
 
 ## Reading a run
 
@@ -76,6 +81,8 @@ A run takes about six minutes at real domino speed. The page plays it as a time-
 3. **Race.** A lane runs along each arm past its 50 votes and takes a detour of about six seconds for every "no". The digit with the most "yes" votes reaches the centre first.
 4. **Decision.** The first lane home triggers a common line that closes the other nine lanes' gates.
 5. **Output.** The winning line topples a field of dominoes painted with its digit.
+
+![Mid-run: one arm's logic has fallen and its lane is racing toward the centre](docs/race.jpg)
 
 See [docs/how-it-works.md](docs/how-it-works.md) for the full description.
 
@@ -139,7 +146,10 @@ a-million-dominoes/
 cd web
 npm test          # unit tests and comparison with the Python reference
 npm run build     # type-check and production build
+npm run shots -- http://localhost:5173   # retake the README screenshots (dev server running)
 ```
+
+The page is deployed to GitHub Pages from `main` by `.github/workflows/pages.yml`.
 
 **Compiler** (Python 3.11 or later)
 

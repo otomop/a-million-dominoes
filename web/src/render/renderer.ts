@@ -4,7 +4,7 @@ import { ARM_SHARED } from '../machine/types';
 import { boxAndQuad, BOX_VERTEX_COUNT, QUAD_VERTEX_COUNT } from './geometry';
 import { createBuffer, createProgram, type Program } from './gl';
 import { digitAtlas, layoutLabels } from './labels';
-import { AMBER, ARM_COLORS, FOG, GROUND, IVORY, SHARED_COLOR } from './palette';
+import { ACCENT, ARM_COLORS, FOG, GROUND, IVORY, SHARED_COLOR } from './palette';
 import {
   ATTR,
   GROUND_FS,
@@ -397,7 +397,7 @@ export class Renderer {
       gl.uniform1f(p.uniforms.uFlashTau, flashTau);
       gl.uniform3fv(p.uniforms.uSize, this.size);
       gl.uniform3fv(p.uniforms.uIvory, IVORY);
-      gl.uniform3fv(p.uniforms.uAmber, AMBER);
+      gl.uniform3fv(p.uniforms.uAmber, ACCENT);
       gl.uniform3f(p.uniforms.uFlashColor, 1.0, 0.94, 0.8);
       gl.uniform3fv(p.uniforms.uArmColor, this.armColors);
       gl.uniform3fv(p.uniforms.uKindStyle, this.kindStyle);

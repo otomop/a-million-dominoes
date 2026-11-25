@@ -7,14 +7,14 @@
 :root {
   --bg: #090b0f;
   --ink: #f1e8d4;
-  --ink-dim: rgb(241 232 212 / 0.66);
-  --ink-faint: rgb(241 232 212 / 0.42);
-  --hairline: rgb(241 232 212 / 0.14);
-  --hairline-strong: rgb(241 232 212 / 0.3);
-  --wash: rgb(241 232 212 / 0.06);
+  --ink-dim: rgb(255 255 255 / 0.66);
+  --ink-faint: rgb(255 255 255 / 0.42);
+  --hairline: rgb(255 255 255 / 0.14);
+  --hairline-strong: rgb(255 255 255 / 0.3);
+  --wash: rgb(255 255 255 / 0.06);
   --panel: rgb(12 14 19 / 0.68);
   --well: rgb(4 5 8 / 0.62);
-  --amber: #f0a83c; /* overwritten from the scene's palette at start-up */
+  --accent: #f0a83c; /* overwritten from the scene's palette at start-up */
   --font-ui: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --font-title: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
   color-scheme: dark;
@@ -47,7 +47,7 @@ body {
 }
 
 :focus-visible {
-  outline: 2px solid var(--amber);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
 
@@ -187,20 +187,20 @@ body {
 
 .button:hover:not(:disabled),
 .icon-button:hover:not(:disabled) {
-  background: rgb(241 232 212 / 0.12);
+  background: rgb(255 255 255 / 0.12);
   border-color: var(--hairline-strong);
 }
 
 .button.primary {
   border-color: transparent;
-  background: var(--amber);
-  color: #1b1304;
+  background: var(--accent);
+  color: #0b0b0c;
   font-weight: 680;
   letter-spacing: 0.015em;
 }
 
 .button.primary:hover:not(:disabled) {
-  background: var(--amber);
+  background: var(--accent);
   filter: brightness(1.1);
 }
 
@@ -337,8 +337,8 @@ body {
 }
 
 .example[aria-pressed='true'] {
-  border-color: var(--amber);
-  background: rgb(241 232 212 / 0.1);
+  border-color: var(--accent);
+  background: rgb(255 255 255 / 0.1);
 }
 
 .example[aria-pressed='true'] canvas {
@@ -456,7 +456,7 @@ body {
   display: block;
   height: 6px;
   border-radius: 3px;
-  background: rgb(241 232 212 / 0.09);
+  background: rgb(255 255 255 / 0.09);
   overflow: hidden;
 }
 
@@ -488,7 +488,7 @@ body {
 }
 
 .lane[data-state='winner'] .lane-note {
-  color: var(--amber);
+  color: var(--accent);
   font-weight: 600;
 }
 
@@ -514,7 +514,7 @@ body {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: rgb(241 232 212 / 0.1);
+  background: rgb(255 255 255 / 0.1);
 }
 
 .scrub {
@@ -547,8 +547,8 @@ body {
   border-radius: 2px;
   background: linear-gradient(
     to right,
-    var(--amber) var(--played, 0%),
-    rgb(241 232 212 / 0.26) var(--played, 0%)
+    var(--accent) var(--played, 0%),
+    rgb(255 255 255 / 0.26) var(--played, 0%)
   );
 }
 
@@ -560,19 +560,19 @@ body {
   border: 0;
   border-radius: 50%;
   background: var(--ink);
-  box-shadow: 0 0 0 4px rgb(9 11 15 / 0.55);
+  box-shadow: 0 0 0 4px rgb(11 11 12 / 0.55);
 }
 
 .scrub-range::-moz-range-track {
   height: 3px;
   border-radius: 2px;
-  background: rgb(241 232 212 / 0.26);
+  background: rgb(255 255 255 / 0.26);
 }
 
 .scrub-range::-moz-range-progress {
   height: 3px;
   border-radius: 2px;
-  background: var(--amber);
+  background: var(--accent);
 }
 
 .scrub-range::-moz-range-thumb {
@@ -581,7 +581,7 @@ body {
   border: 0;
   border-radius: 50%;
   background: var(--ink);
-  box-shadow: 0 0 0 4px rgb(9 11 15 / 0.55);
+  box-shadow: 0 0 0 4px rgb(11 11 12 / 0.55);
 }
 
 .readout {
@@ -632,7 +632,7 @@ body {
 }
 
 .segment[aria-checked='true'] {
-  background: rgb(241 232 212 / 0.15);
+  background: rgb(255 255 255 / 0.15);
   color: var(--ink);
 }
 
@@ -641,8 +641,8 @@ body {
 }
 
 .follow[aria-pressed='true'] {
-  border-color: color-mix(in srgb, var(--amber) 50%, transparent);
-  color: var(--amber);
+  border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+  color: var(--accent);
 }
 
 .draw-again {
@@ -753,14 +753,14 @@ body {
   flex: none;
   min-width: 1.5em;
   font: 500 19px/1 var(--font-title);
-  color: var(--amber);
+  color: var(--accent);
   font-variant-numeric: tabular-nums;
 }
 
 .info-section .concept {
   margin-top: 12px;
   padding: 9px 12px;
-  border-left: 2px solid var(--amber);
+  border-left: 2px solid var(--accent);
   border-radius: 0 8px 8px 0;
   background: var(--wash);
   font-size: 13.5px;
@@ -773,7 +773,7 @@ body {
   font-weight: 650;
   letter-spacing: 0.07em;
   text-transform: uppercase;
-  color: var(--amber);
+  color: var(--accent);
 }
 
 .step .button {
@@ -809,7 +809,7 @@ body {
 }
 
 .figure .fig-a {
-  stroke: var(--amber);
+  stroke: var(--accent);
 }
 
 .figure .fig-b {
@@ -876,7 +876,7 @@ body {
   inset: 0;
   width: 40%;
   border-radius: 1px;
-  background: var(--amber);
+  background: var(--accent);
   animation: sweep 1.2s ease-in-out infinite alternate;
 }
 
@@ -1146,12 +1146,12 @@ body {
   }
 
   .lane[data-state='leading'] .lane-digit {
-    background: rgb(241 232 212 / 0.14);
+    background: rgb(255 255 255 / 0.14);
   }
 
   .lane[data-state='winner'] .lane-digit {
     background: var(--arm);
-    color: #14100a;
+    color: #0b0b0c;
   }
 
   .result {

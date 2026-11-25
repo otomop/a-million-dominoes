@@ -236,7 +236,7 @@ void main() {
   // A soft pool of light over the machine; the floor falls away into the dark around it.
   vec2 outside = max(abs(vWorld.xy) - uField.xy, 0.0);
   float pool = 1.0 - smoothstep(0.0, uField.z, length(outside));
-  vec3 color = uGround * (0.5 + 0.5 * pool) + vec3(0.9, 0.95, 1.0) * lines * 0.045 * (0.3 + 0.7 * pool);
+  vec3 color = uGround * (0.5 + 0.5 * pool) + vec3(1.0) * lines * 0.045 * (0.3 + 0.7 * pool);
   outColor = vec4(mix(uFog, color, fogFactor(distance(uEye, vWorld))), 1.0);
 }
 `;
@@ -260,7 +260,7 @@ void main() {
   vec3 normal = vec3(aNormal.x * c - aNormal.y * s, aNormal.x * s + aNormal.y * c, aNormal.z);
   gl_Position = uViewProj * vec4(world, 1.0);
   float key = max(dot(normal, uLight), 0.0);
-  vColor = vec3(0.17, 0.18, 0.21) * (0.45 + 0.25 * normal.z + 0.6 * key);
+  vColor = vec3(0.18) * (0.45 + 0.25 * normal.z + 0.6 * key);
   vFog = fogFactor(distance(uEye, world));
 }
 `;

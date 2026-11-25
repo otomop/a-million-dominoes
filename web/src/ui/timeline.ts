@@ -178,7 +178,7 @@ export class Timeline {
     }
     // Square-root scale: the quiet race should still show next to the roar of the logic.
     const top = Math.sqrt(Math.max(1, ...peaks));
-    ctx.fillStyle = 'rgba(241, 232, 212, 0.2)';
+    ctx.fillStyle = 'rgba(242, 242, 240, 0.2)';
     for (let c = 0; c < columns; c++) {
       const bar = Math.max(1, (Math.sqrt(peaks[c]) / top) * height);
       ctx.fillRect(c * 2, (height - bar) / 2, 1, bar);

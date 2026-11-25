@@ -70,7 +70,7 @@ export interface Header {
   domino: { h: number; w: number; t: number };
   kinds: string[];
   sections: Record<string, Section>;
-  model: { grid: number; thresholds: number[]; bits: number };
+  model: { grid: number; thresholds: number[]; bits: number; layers?: number[] };
   lanes: Lane[];
   bounds: { minX: number; maxX: number; minY: number; maxY: number };
   timing?: Record<string, number>;

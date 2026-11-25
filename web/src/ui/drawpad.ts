@@ -105,7 +105,7 @@ export class DrawPad {
       tiny.clearRect(0, 0, 8, 8);
       for (let i = 0; i < 64; i++) {
         if (this.example[i] === 0) continue;
-        tiny.fillStyle = `rgba(241, 232, 212, ${0.2 + 0.25 * this.example[i]})`;
+        tiny.fillStyle = `rgba(242, 242, 240, ${0.2 + 0.25 * this.example[i]})`;
         tiny.fillRect(i % 8, Math.floor(i / 8), 1, 1);
       }
       ctx.imageSmoothingEnabled = false;
@@ -114,8 +114,8 @@ export class DrawPad {
       return;
     }
 
-    ctx.strokeStyle = '#f1e8d4';
-    ctx.fillStyle = '#f1e8d4';
+    ctx.strokeStyle = '#f2f2f0';
+    ctx.fillStyle = '#f2f2f0';
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
     ctx.lineWidth = size * 0.07;

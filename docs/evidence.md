@@ -74,7 +74,7 @@ In the final machine the winner's own blocker arrives 0.275 s after its claim, a
 
 ## 4. The browser against the reference
 
-`npm test` in `web/`, 83 tests.
+`npm test` in `web/`, 89 tests.
 
 - **Simulation.** For 16 test digits the TypeScript automaton reproduces the Python one exactly: the number of dominoes fallen, the sum of all fall times, every lane's finish time, 24 sampled dominoes per case, and the winner.
 - **Drawing to grid.** 40 stroke drawings, including a single dot, very wide and very tall shapes, and strokes on the pad's edge, give the same 8×8 grid and the same 192 bits as the Python reference.

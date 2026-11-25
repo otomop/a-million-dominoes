@@ -1,7 +1,11 @@
+import '@fontsource-variable/inter';
+import '@fontsource-variable/space-grotesk';
+import '@fontsource-variable/jetbrains-mono';
 import './style.css';
+import './theme.css';
 import { App } from './app';
 import { fetchMachineBytes, parseMachine } from './machine/loader';
-import { AMBER, css } from './render/palette';
+import { ACCENT, css } from './render/palette';
 import { WebGL2Unavailable } from './render/renderer';
 import { copy } from './ui/copy';
 import { h } from './ui/dom';
@@ -13,7 +17,7 @@ const canvas = document.getElementById('scene') as HTMLCanvasElement;
 const debug = new URLSearchParams(location.search).has('debug');
 
 // The accent colour is defined once, in the palette the scene also uses.
-document.documentElement.style.setProperty('--amber', css(AMBER));
+document.documentElement.style.setProperty('--accent', css(ACCENT));
 
 const status = h('p', { class: 'loading-text', text: copy.loading.download });
 const loading = h(
