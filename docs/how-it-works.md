@@ -1,6 +1,6 @@
 # How it works
 
-This is the long version. The short version is in the [README](../README.md).
+The project is a visualizer: it lays out one complete run of a small neural network as falling dominoes. This page describes each stage of that calculation and how it is realised in dominoes. The short version is in the [README](../README.md).
 
 ## 1. A network made only of logic gates
 

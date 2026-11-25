@@ -1,7 +1,7 @@
 <h1 align="center">A Million Dominoes</h1>
 
 <p align="center">
-  Draw a digit. A million falling dominoes work out which number you wrote.
+  An interactive visualizer of how a neural network computes, built from a million simulated dominoes.
 </p>
 
 <p align="center">
@@ -27,15 +27,24 @@
 
 ## About
 
-A Million Dominoes is a handwritten-digit classifier compiled into a field of 1,026,525 dominoes and simulated in the browser. The classifier is a neural network in which every unit is a single logic gate, so it can be laid out as lines, junctions and bridges of dominoes. Your drawing tips a set of starter dominoes, and the chain reaction ends with one of ten domino pictures toppling to show the answer.
+A Million Dominoes makes one run of a neural network visible from start to finish. A small network that reads handwritten digits is laid out as 1,026,525 dominoes, so every signal, every unit and the final decision can be watched as it happens. You draw a digit, the drawing tips a set of starter dominoes, and the chain reaction ends with a domino picture of the answer.
 
-## Highlights
+The network is a logic gate network: each of its units is a single logic gate. That is what makes the layout possible, because a gate can be built from a few dominoes and a multiplication cannot.
 
-- **A learned circuit, not a hand-built one.** A 7,500-gate network trained on handwritten digits reads 97% of digits from writers it never saw.
-- **Compiled layout.** A compiler places every domino, sizes every gate for timing, and verifies that no two dominoes overlap.
-- **Verified end to end.** The domino field gives the network's own answer on all 1,797 test digits.
-- **Runs in the browser.** A run is computed in a fraction of a second; the whole field renders with WebGL2 and can be played, scrubbed and explored.
-- **Small.** The compiled machine is a 1 MB download. No server, no framework.
+## What it visualizes
+
+| In a neural network | In the visualizer | Where to look |
+|---|---|---|
+| Input features | 192 yes-or-no facts about the drawing, each tipping its starter dominoes | The bright dots at the start of a run |
+| A signal (activation) | A falling line of dominoes. Each bit has a "1" line and a "0" line | Any line in an arm |
+| A unit (neuron) | A logic gate: two lines merging (OR), or one line blocking another | The "Show me" stops in the How it works panel |
+| Layers | Gates feeding gates, up to five in a row between a starter and a vote | The branching logic beside each race lane |
+| Connections | Lines, with small bridges where two must cross | Bridges throughout the arms |
+| Output scores | 50 votes per digit. Each "no" vote delays that digit's race lane | The race display |
+| Choosing the answer (argmax) | The first lane to reach the centre closes the other nine | The finish at the centre |
+| Confidence | The winner's lead over the runner-up, in seconds | The result card |
+| Prediction | A field of dominoes that topples to show the digit | The picture panels |
+| Training | Not shown. It happened beforehand, in software | `compiler/dominoes/train_final.py` |
 
 ## Quick start
 
@@ -56,17 +65,27 @@ Open the printed address, draw a digit or pick an example, and press **Topple**.
 | Scroll | Zoom |
 | <kbd>Space</kbd> | Play or pause |
 | <kbd>←</kbd> <kbd>→</kbd> | Step through the run |
-| **How it works** | Guided walkthrough of each part of the machine |
+| **How it works** | Guided walkthrough, with a note on what each part corresponds to in a neural network |
 
-## How it works
+## Reading a run
 
-1. **Input.** The drawing is reduced to an 8×8 grid of ink levels, which gives 192 bits.
-2. **Starters.** Each bit controls a group of starter dominoes. Those whose condition holds are tipped together; this is the machine's only input.
-3. **Logic.** Signals travel as falling lines, two per bit. Merging lines form an OR, and a line knocked down from its far end blocks a later signal.
-4. **Counting.** Each digit has a race lane that takes a detour for every gate that voted against it, so the digit with the most votes finishes first.
-5. **Finish.** The first lane home closes the other nine lanes' gates and topples a picture of its digit.
+A run takes about six minutes at real domino speed. The page plays it as a time-lapse of about 40 seconds; the speed control includes true speed.
+
+1. **Input.** The drawing is reduced to an 8×8 grid of ink levels, giving 192 bits. The starter dominoes whose condition holds are all tipped at the same moment. Nothing else is ever pushed.
+2. **Logic.** Waves spread through each arm. Where two lines merge, the result is an OR; where one line knocks a segment down ahead of another, it blocks it. Each arm's gates settle into 50 yes-or-no votes for its digit.
+3. **Race.** A lane runs along each arm past its 50 votes and takes a detour of about six seconds for every "no". The digit with the most "yes" votes reaches the centre first.
+4. **Decision.** The first lane home triggers a common line that closes the other nine lanes' gates.
+5. **Output.** The winning line topples a field of dominoes painted with its digit.
 
 See [docs/how-it-works.md](docs/how-it-works.md) for the full description.
+
+## The technology
+
+- **Logic gate networks.** In most networks a unit multiplies its inputs by learned weights and adds them up. Here each unit is one two-input logic gate. During training a unit is a weighted blend of all 16 possible gates, which keeps it adjustable by gradient descent; afterwards it is fixed to its most likely gate. The method is from Petersen et al. (2022).
+- **Training and inference.** Training adjusts the network on labelled examples and happens once, offline. Inference is a single pass from input to output in which nothing changes. The visualizer shows inference.
+- **Two lines per bit.** A fallen line can say "yes", but a standing line could mean "no" or "not yet". Each bit is therefore carried on two lines, exactly one of which falls. Hardware designers call this dual-rail logic.
+- **Timing.** A blocking gate works only if the blocker arrives first. The compiler computes the earliest and latest arrival of every signal and adjusts the layout until every gate has margin. Chip design uses the same analysis under the name static timing analysis.
+- **Compilation.** The layout is generated, not drawn by hand: a trained network goes in and the positions of a million dominoes come out, checked against the network on every test digit.
 
 ## Verification
 

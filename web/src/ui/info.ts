@@ -105,6 +105,12 @@ export class InfoDrawer {
         h('h3', {}, h('span', { class: 'step-number', text: String(index + 1) }), step.heading),
         ...step.body.map((text) => h('p', { text })),
         'figure' in step ? h('div', { class: 'figure', html: figures[step.figure] }) : null,
+        h(
+          'p',
+          { class: 'concept' },
+          h('span', { class: 'concept-label', text: copy.info.conceptLabel }),
+          copy.info.concepts[index] ?? '',
+        ),
         showMe,
       );
     });

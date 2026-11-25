@@ -9,7 +9,8 @@ export interface WhyFacts {
 
 export const copy = {
   title: 'A Million Dominoes',
-  tagline: 'Draw a digit. A million falling dominoes work out which number you wrote.',
+  tagline:
+    'Watch a neural network compute. Draw a digit, and a million dominoes work out which number you wrote.',
 
   loading: {
     download: 'Fetching the machine…',
@@ -97,7 +98,7 @@ export const copy = {
     },
     showMe: 'Show me',
     intro:
-      'Nothing here is steered by a computer while it runs. One push at the start, and after that every domino falls only because another domino hit it.',
+      'This page is a visualizer for a small neural network. A network normally does its work inside a chip in a fraction of a second. Here the same calculation is laid out on a floor as falling dominoes, so every signal, every unit and the final decision can be followed by eye. Nothing is steered while it runs: one push at the start, and after that every domino falls only because another one hit it.',
     why: {
       heading: 'Why this is worth knowing',
       intro:
@@ -135,8 +136,21 @@ export const copy = {
         },
       ],
     },
-    stepsHeading: 'How it works, step by step',
+    stepsHeading: 'What you are watching, step by step',
     /** The walkthrough. `stop` names a place on the machine's tour; `figure` a diagram in figures.ts. */
+    conceptLabel: 'In a neural network',
+    /** One note per step of the walkthrough, in the same order: what the step is called in a network. */
+    concepts: [
+      'This is feature extraction. A network cannot take in a picture directly; the picture is first turned into a fixed list of numbers. Here the list is 192 bits. For an image model it is the brightness of every pixel.',
+      'This is the input layer, where the features enter the network. Each input is copied to every place that uses it, which is why there are many more starters than answers.',
+      'A falling line is a signal passing from one unit to the next, which engineers call an activation. In a chip the same signal is a voltage on a wire.',
+      'This is one unit of the network, sometimes called a neuron. In most networks a unit multiplies its inputs by learned weights and adds them up. In this network a unit is one logic gate, and what was learned is which gate.',
+      'Blocking supplies AND and NOT, which together with OR make every other gate. The trained network is a few thousand such units arranged in layers, each reading two units of the layer before it.',
+      'This is the wiring between layers. A chip solves the same problem by stacking its wires on several levels of metal.',
+      'This is the output layer. Each digit’s score is its number of yes votes, and choosing the highest score is called taking the argmax. Language models end the same way: a score for every possible next word, then a choice.',
+      'This is winner-take-all: turning ten scores into one decision. The gap between first and second place is the nearest thing this network has to confidence.',
+      'This is the prediction, the network’s output. One pass from input to output is called inference, and it is all a trained network does when you use it.',
+    ],
     steps: [
       {
         heading: 'Your drawing becomes 192 yes-or-no answers',
