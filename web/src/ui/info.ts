@@ -31,7 +31,7 @@ function realBuild(header: Header): string[] {
     text.floor(width.toFixed(0), depth.toFixed(0), ((width * depth) / (105 * 68)).toFixed(0)),
     text.dominoes(formatCount(count), ((count * 8) / 1e6).toFixed(0)),
   ];
-  if (gates.swap) lines.push(text.bridges(formatCount(gates.swap), formatCount(gates.swap * 9)));
+  if (gates.swap) lines.push(text.bridges(formatCount(gates.swap), formatCount(gates.swap * 8)));
   lines.push(text.setup(formatCount(Math.round(hours / 10) * 10), (hours / 160).toFixed(0)));
   if (gates.rinh) {
     lines.push(text.precision(formatCount(gates.rinh), (gates.rinh / 400).toFixed(0)));

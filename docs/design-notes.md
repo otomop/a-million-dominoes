@@ -6,7 +6,7 @@ Background for readers who want more than the README: the decisions that shaped 
 
 - **One-way junctions.** A wave entering a junction also travels back up the other inputs. Every gadget entry therefore uses an offset, angled domino that passes a wave forwards and misses it backwards.
 - **Blocking gates.** The blocker has to reach the shared segment before the signal does. The gate is laid out so that the signal, not the blocker, makes the U-turn, and the compiler lengthens each segment until the blocker's worst-case arrival leads by at least 0.55 s.
-- **No global routing.** Sharing a gate's output between consumers would require around two million line crossings. Each output gate instead gets a private tree of gates, duplicated as needed: 2,303 gate instances for a 7,500-gate network.
+- **No global routing.** Sharing a gate's output between consumers needs global routing. An earlier 1,500-gate version of the network would have required about two million line crossings, and the final network is five times larger. Each output gate instead gets a private tree of gates, duplicated as needed: 2,303 gate instances for a 7,500-gate network.
 - **No padding wire.** Tree leaves are starter dominoes and can stand anywhere, so a shallow branch starts further along instead of waiting behind a long wire. At each gate the later-arriving operand is used as the signal and the earlier one as the blocker.
 - **Timing by measurement.** The race lanes and the finish are calibrated from simulation. The compiler builds the field, runs each lane alone, measures its delays, and rebuilds with the lane starts and finish delays corrected.
 - **Geometry-derived simulation.** The page does not simulate rigid bodies. It runs an event model whose hit graph is derived from the placed geometry alone and whose delays were calibrated against rigid-body tests of each gadget. The graph is stored in the machine file, so the browser runs the same automaton the validation ran.
@@ -28,8 +28,8 @@ A physical build of this layout would need:
 |---|---|
 | Level floor | about 283 m × 244 m |
 | Dominoes | 1,026,525 (roughly eight tonnes at 8 g each) |
-| Bridges | 1,678, each with eight stair blocks and a deck |
-| Actuators to tip the starters together | 3,506 |
+| Bridges | 1,678, each with seven stair blocks and a deck |
+| Actuators fired together | 3,516: one per starter domino (3,506) and one per lane start (10) |
 | Placement time at three seconds per domino | about 860 person-hours |
 | One run | about six minutes, after which roughly half the field has to be reset |
 

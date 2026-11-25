@@ -27,8 +27,8 @@ A fallen domino cannot stand up again, and a domino cannot signal "no" by stayin
 | Merge | 11 | Two lines converge on one domino. This is OR: either line knocks it |
 | One-way valve | none extra | The next domino stands 17 mm to the side and is turned 40°. A wave passes forwards and misses it backwards |
 | Blocking gate | 28 and up | A short segment of line that the main signal enters from one end and the blocker from the other. If the blocker gets there first, its wave runs back along the segment and the main signal meets fallen dominoes |
-| Bridge | 30, plus 8 stair blocks and a deck | One line climbs four steps to a deck 62 mm up and crosses over the other, which passes underneath |
-| Vote section | about 390 | A piece of race lane with a short path through a blocking gate and a long detour around it |
+| Bridge | 30, plus 7 stair blocks and a deck | One line climbs four steps to a deck 62 mm up and crosses over the other, which passes underneath |
+| Vote section | about 430 | A piece of race lane with a short path through a blocking gate and a long detour around it |
 
 Every Boolean function the network uses is built from merges and blocking gates on the two-line encoding. With `INH(m | b)` meaning "m passes unless b blocks it":
 
@@ -42,7 +42,7 @@ The gadgets were each tested in rigid-body physics (Rapier) with every domino mi
 `compiler/dominoes/layout.py` places every gate.
 
 - **No shared gates.** Routing one gate's output to several places would need millions of line crossings. Instead every output gate gets its own private tree of gates, copied as often as needed. The network is five layers deep, so a tree could have up to 31 gates, but most branches simplify away: the 500 trees hold 2,303 gates in all.
-- **Inputs wherever they are needed.** A tree's leaves are starter dominoes. The drawing decides which starters are tipped at time zero: for each input bit, either its "is 1" starters or its "is 0" starters. Nothing else is ever touched.
+- **Inputs wherever they are needed.** A tree's leaves are starter dominoes. The drawing decides which starters are tipped at time zero: for each input bit, either its "is 1" starters or its "is 0" starters. The only other dominoes ever pushed are the first domino of each race lane, tipped at the same moment on every run.
 - **No padding.** A shallow branch does not need a long wire to wait for a deep one: its starters simply stand further along. At each gate the branch that arrives later is made the main signal and the earlier one the blocker, because an early blocker costs nothing and an early main signal would have to be held back.
 - **Timing closure.** For every blocking gate the compiler computes the earliest moment the main signal can arrive and the latest moment the blocker can, and lengthens the gate's segment until the blocker leads by at least 0.55 s. The physics tests put the safe lead at about 0.45 s.
 

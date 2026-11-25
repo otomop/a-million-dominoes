@@ -5,7 +5,7 @@ This project stands on other people's ideas. None of the pieces is new by itself
 | Existing work | What it has | What it does not have |
 |---|---|---|
 | [The Domino Computer](https://www.andrewt.net/maths/domputer/), a web page | Visitors draw domino wires and run small logic and sums | No learned model; nothing reads a drawing |
-| [The 10,000 Domino Computer](https://www.youtube.com/watch?v=OpLU__bhu2w), 2014 | A real, hand-built domino adder that adds two four-bit numbers | Designed and placed by hand |
+| [The 10,000 Domino Computer](https://www.youtube.com/watch?v=OpLU__bhu2w), 2014 | A real, hand-built binary adder made of about 10,000 dominoes | Designed and placed by hand |
 | A handwritten-digit recogniser built in Minecraft ([2019 post](https://www.reddit.com/r/Minecraft/comments/ak22ur/neural_network_for_handwritten_digit_recognition/)) | Draw a number and a computer in an unlikely world reads it | Runs on game commands, not on a material with one behaviour |
 | [A mechanical metamaterial that classifies digits](https://pmc.ncbi.nlm.nih.gov/articles/PMC10933649/), 2023 | A physical classifier with no electronics | Tested on two classes; a laboratory object |
 | Differentiable logic gate networks (Petersen et al., 2022) | The training method used here: networks whose units become single logic gates | Nothing about dominoes |
@@ -27,6 +27,6 @@ Building it turned up things the first sketch had wrong:
 
 1. **Waves run backwards.** A wave entering a junction also travels back up the other inputs unless every entry has a one-way valve.
 2. **The obvious blocking gate is late by construction.** The blocker has to make a U-turn to enter the segment from the far end, so it loses the race it needs to win. The gate has to be built mirrored, with the main signal making the U-turn.
-3. **Routing the network like a chip does not fit.** It needs about two million line crossings. Copying gates into private trees needs none between trees.
+3. **Routing the network like a chip does not fit.** An earlier 1,500-gate network would have needed about two million line crossings. Copying gates into private trees needs none between trees.
 4. **Padding wires are unnecessary.** Starter dominoes can stand anywhere, so a short branch starts late instead of waiting. This removed more than a quarter of the dominoes.
 5. **A finish line needs equal paths.** For the first lane home to block all the others and not itself, the "someone has finished" signal must reach every lane's gate at a known moment. That forces a single common line, and it forces the lanes' claims and the blockers to cross each other.

@@ -48,7 +48,7 @@ The network is a logic gate network: each of its units is a single logic gate. T
 
 ## Quick start
 
-Requires Node.js 22 or later and a browser with WebGL2.
+Requires Node.js (tested with versions 22 and 24) and a browser with WebGL2.
 
 ```bash
 git clone https://github.com/otomop/a-million-dominoes.git
@@ -71,7 +71,7 @@ Open the printed address, draw a digit or pick an example, and press **Topple**.
 
 A run takes about six minutes at real domino speed. The page plays it as a time-lapse of about 40 seconds; the speed control includes true speed.
 
-1. **Input.** The drawing is reduced to an 8×8 grid of ink levels, giving 192 bits. The starter dominoes whose condition holds are all tipped at the same moment. Nothing else is ever pushed.
+1. **Input.** The drawing is reduced to an 8×8 grid of ink levels, giving 192 bits. The starter dominoes whose condition holds are all tipped at the same moment, together with the first domino of each race lane. Nothing is pushed after that.
 2. **Logic.** Waves spread through each arm. Where two lines merge, the result is an OR; where one line knocks a segment down ahead of another, it blocks it. Each arm's gates settle into 50 yes-or-no votes for its digit.
 3. **Race.** A lane runs along each arm past its 50 votes and takes a detour of about six seconds for every "no". The digit with the most "yes" votes reaches the centre first.
 4. **Decision.** The first lane home triggers a common line that closes the other nine lanes' gates.
@@ -111,7 +111,7 @@ What carries over unchanged: a network in use is a fixed calculation, its rules 
 | Accuracy on writers not seen in training | 97.05% of 1,797 digits |
 | Field output equals network output | 1,797 of 1,797 |
 | Same, with ±10% random timing variation | 1,797 and 1,795 of 1,797 in two runs |
-| Gadgets in rigid-body physics with placement noise | 99.75% to 100% per gadget type |
+| Gadgets in rigid-body physics with placement noise | 99.75% or better per gadget type at design timing |
 | Browser simulation against the Python reference | Identical on all reference runs |
 
 Methods, full figures and limitations are in [docs/evidence.md](docs/evidence.md) and [docs/design-notes.md](docs/design-notes.md).

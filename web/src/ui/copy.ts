@@ -117,7 +117,7 @@ export const copy = {
         {
           lead: 'It does not matter what it is made of.',
           text: (f: WhyFacts) =>
-            `The same ${f.gates} learned gates give the same answers as code in this browser, as a chip, or as dominoes. A chip’s switches flip in less than a billionth of a second; a domino takes about a thirtieth of a second to knock over the next. Speed is the reason AI runs on silicon. There is no other ingredient.`,
+            `The same learned circuit, ${f.gates} gates when it was trained, gives the same answers as code in this browser, as a chip, or as dominoes. A chip’s switches flip in less than a billionth of a second; a domino takes about a thirtieth of a second to knock over the next. Speed is the reason AI runs on silicon. There is no other ingredient.`,
         },
         {
           lead: 'Gates are the cheapest thing a computer can do.',
@@ -163,8 +163,8 @@ export const copy = {
         heading: 'Each answer tips a set of starter dominoes',
         body: [
           'Dotted through the field are starter dominoes. Each one belongs to one question and one answer: “tip me if square 3-4 is more than a third inked”, or “tip me if it is not”.',
-          'Pressing Topple tips every starter whose answer is true, all at the same instant, about half of them. They are the bright dots at the start of a run. This is the only push the machine ever gets, and the only thing your drawing does.',
-          'On this page the push is a calculation: the browser works out which domino hits which and when, then plays it back. Nothing is sent anywhere.',
+          'Pressing Topple tips every starter whose answer is true, a little under half of them, all at the same instant. They are the bright dots at the start of a run. In that same instant the first domino of each of the ten race lanes is tipped too, the same way for every drawing. That moment is the only push the machine ever gets, and the starters are the only thing your drawing changes.',
+          'On this page the push is a calculation. Which domino can hit which was worked out in advance from the layout; the browser works out which ones actually fall, and when, then plays it back. Nothing is sent anywhere.',
         ],
         stop: 'Starter dominoes',
       },
@@ -271,13 +271,13 @@ export const copy = {
       dominoes: (count: string, tonnes: string) =>
         `${count} dominoes of the usual toppling size, 48 mm tall. At about 8 grams each that is roughly ${tonnes} tonnes of plastic.`,
       bridges: (bridges: string, steps: string) =>
-        `${bridges} bridges, each with eight little stair blocks and a deck: ${steps} parts that are not dominoes but only hold some up.`,
+        `${bridges} bridges, each with seven little stair blocks and a deck: ${steps} parts that are not dominoes but only hold some up.`,
       setup: (hours: string, days: string) =>
         `Standing them up: at one domino every three seconds, ${hours} hours of work. A crew of twenty would need about ${days} full days if nobody ever knocked one over, and they would. Real builders leave gaps and fill them last.`,
       precision: (gates: string, misfires: string) =>
         `Care: with millimetre errors a blocking gate works about 399 times in 400. There are ${gates} of them, so expect about ${misfires} to misfire in a run, and one wrong gate can change the answer. A real build would need placing jigs and wider safety margins than a first attempt gets.`,
       starters: (starters: string) =>
-        `The push: ${starters} starter dominoes, each with its own small pusher (a solenoid, or a pin on a string), wired to 192 switches set from the drawing and all fired together. This is the one part that is not dominoes.`,
+        `The push: ${starters} starter dominoes and the ten lane starts, each with its own small pusher (a solenoid, or a pin on a string). The starters are wired to 192 switches set from the drawing, and everything fires together. This is the one part that is not dominoes.`,
       run: (minutes: string) =>
         `One run takes about ${minutes} minutes from the push to the picture. Then roughly half the field is lying down and has to be stood up again by hand before the next drawing.`,
     },

@@ -53,7 +53,7 @@ Rapier 0.14, time step 0.5 ms, friction 0.35 between dominoes and 0.5 on the flo
 | Blocking gate, blocker only (must not pass or leak back) | 200 | 200 |
 | Blocking gate, both, blocker at design timing or earlier | 400 | 400 |
 
-The first four rows and the last three were run on the prototype of this design; the gadget geometry is unchanged. The others were re-run on the final geometry.
+The split, merge, bridge and vote-section rows were re-run on the final geometry. The other rows were run on the prototype of this design, whose gadget geometry is unchanged.
 
 **Timing agreement.** In physics the vote section takes 3.18 s by the short path; the event model says 2.89 s. The built-in lead of a blocking gate is 0.450 s in physics and 0.446 s in the event model. The compiler demands a lead of at least 0.55 s at every gate.
 
@@ -82,7 +82,7 @@ In the final machine the winner's own blocker arrives 0.275 s after its claim, a
 
 ## 5. Rendering
 
-Measured on one machine only (NVIDIA RTX 5090 laptop GPU, at 1280×720 and 2560×1440): about 1 ms of GPU time per frame for the overview and for close-ups. Far tiles are drawn as points and thinned. Not measured: live frame rate on an integrated GPU or a phone.
+Measured on one machine only (NVIDIA RTX 5090 laptop GPU, at 1280×720 and 2560×1440): about 1 ms of GPU time per frame for the overview and for close-ups. The measurement was taken on an earlier layout of 750,000 dominoes. Far tiles are drawn as points and thinned. Not measured: live frame rate on an integrated GPU or a phone.
 
 ## 6. What was not done
 
