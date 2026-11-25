@@ -821,6 +821,12 @@ body {
   font: 11px var(--font-ui);
 }
 
+.missing {
+  margin-top: 26px;
+  padding-top: 4px;
+  border-top: 1px solid var(--hairline);
+}
+
 .real {
   margin-top: 26px;
   padding-top: 4px;

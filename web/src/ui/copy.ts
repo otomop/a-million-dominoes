@@ -225,6 +225,43 @@ export const copy = {
         stop: 'The answer panels',
       },
     ],
+    missing: {
+      heading: 'What this example leaves out',
+      intro:
+        'This is about the simplest neural network that still does something useful. The systems in use today work on the same principle, but they differ in ways worth knowing.',
+      points: [
+        {
+          lead: 'Their signals are numbers, not yes or no.',
+          text: 'A unit in an ordinary network multiplies each of its inputs by a learned number called a weight, adds the results, and passes the total through a simple bend. Its output can be a little or a lot, which lets the network express shades of evidence. Graphics chips are built to do exactly this arithmetic quickly. Gate networks like this one are a small research field; almost everything in use today runs on arithmetic.',
+        },
+        {
+          lead: 'The learning is not on this floor.',
+          text: 'You are watching a finished network being used. Training is the other half: show an example, measure how wrong the answer was, work out for every weight which direction would have made it less wrong (backpropagation), move each weight slightly that way (gradient descent), and repeat millions of times. Training a large model can take weeks on thousands of specialised chips.',
+        },
+        {
+          lead: 'Modern networks choose what to look at.',
+          text: 'Here every gate reads the same two inputs every time. The networks behind chatbots, called transformers, use attention: for each word, the network works out which other words matter to it, and that changes from sentence to sentence. Image networks reuse one small detector across the whole picture instead of learning every position separately.',
+        },
+        {
+          lead: 'They find their own features.',
+          text: 'This machine was handed an 8 by 8 grid that a person designed. Modern networks start from raw pixels or pieces of words and learn their own internal descriptions: lists of numbers in which similar things end up close together.',
+        },
+        {
+          lead: 'Most of their training data has no labels.',
+          text: 'Every digit this network learned from came with its answer. Large models learn mainly by hiding part of the data and predicting it, for instance the next word of a sentence. That needs no labelling, so they can learn from enormous amounts of ordinary text, and are then adjusted for particular jobs.',
+        },
+        {
+          lead: 'They generate, one piece at a time.',
+          text: 'This network picks one of ten labels and stops. A language model scores every possible next piece of a word, turns the scores into probabilities, picks one, adds it to the text and runs again. A paragraph is hundreds of such runs.',
+        },
+        {
+          lead: 'They are vastly larger.',
+          text: 'This network has a few thousand gates. Large language models have billions to hundreds of billions of weights, and one model handles many tasks instead of one.',
+        },
+      ],
+      outro:
+        'What carries over unchanged: a network in use is a fixed calculation, its rules came from examples and not from a programmer, and it answers by weighing evidence, so it can be wrong.',
+    },
     real: {
       heading: 'If you built it for real',
       intro:

@@ -87,6 +87,23 @@ See [docs/how-it-works.md](docs/how-it-works.md) for the full description.
 - **Timing.** A blocking gate works only if the blocker arrives first. The compiler computes the earliest and latest arrival of every signal and adjusts the layout until every gate has margin. Chip design uses the same analysis under the name static timing analysis.
 - **Compilation.** The layout is generated, not drawn by hand: a trained network goes in and the positions of a million dominoes come out, checked against the network on every test digit.
 
+## What this example leaves out
+
+This is about the simplest neural network that still does something useful. Networks in use today work on the same principle but differ in ways worth knowing.
+
+| | This visualizer | Networks in use today |
+|---|---|---|
+| **Units** | One logic gate each; a signal is yes or no | A weighted sum of numbers passed through a simple non-linear function; a signal can be a little or a lot |
+| **Learning** | Not shown: you watch a finished network being used | Training is the other half. Backpropagation works out how each weight should change to reduce the error, gradient descent applies the change, and the loop repeats over millions of examples |
+| **Wiring** | Fixed: each gate always reads the same two inputs | Attention (transformers): each part of the input works out which other parts matter to it, differently for every input. Convolution: one small detector is reused across a whole image |
+| **Input** | Features designed by a person: an 8×8 grid and three thresholds | Raw pixels or pieces of text. The network learns its own internal representation (embeddings) |
+| **Training data** | Labelled digits (supervised learning) | Mostly unlabelled data. The model learns by predicting hidden parts of it, such as the next word (self-supervised learning), and is then adapted to tasks |
+| **Output** | One of ten labels; the top score wins | Probabilities over many options. Generative models pick one, append it and run again, building text or images piece by piece |
+| **Size and scope** | 7,500 gates, one task | Millions to hundreds of billions of weights; one model adapted to many tasks |
+| **Hardware** | Dominoes | GPUs and similar chips that perform many multiplications in parallel |
+
+What carries over unchanged: a network in use is a fixed calculation, its rules came from examples and not from a programmer, and it answers by weighing evidence, so it can be wrong.
+
 ## Verification
 
 | Check | Result |

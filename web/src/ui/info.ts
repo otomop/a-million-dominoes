@@ -115,6 +115,17 @@ export class InfoDrawer {
       );
     });
 
+    const missing = h(
+      'section',
+      { class: 'info-section why missing' },
+      h('h3', { text: copy.info.missing.heading }),
+      h('p', { text: copy.info.missing.intro }),
+      ...copy.info.missing.points.map((point) =>
+        h('p', {}, h('strong', { text: point.lead }), ` ${point.text}`),
+      ),
+      h('p', { text: copy.info.missing.outro }),
+    );
+
     const real = h(
       'section',
       { class: 'info-section real' },
@@ -138,6 +149,7 @@ export class InfoDrawer {
         why,
         stepsHeading,
         ...steps,
+        missing,
         real,
       ),
     );
