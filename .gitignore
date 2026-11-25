@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+node_modules/
+dist/
+build_out/
+compiler/physics/tmp/
+compiler/data/mnist/
+compiler/data/prepared/
+compiler/data/optdigits_orig/
+compiler/data/pendigits_orig/
+compiler/_try*.py
+.DS_Store
+Thumbs.db
+*.log

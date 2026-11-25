@@ -1,0 +1,9 @@
+{
+  "name": "dominoes-physics",
+  "private": true,
+  "description": "Rigid-body checks of the domino gadgets (Rapier, run from Python)",
+  "type": "commonjs",
+  "dependencies": {
+    "@dimforge/rapier3d-compat": "^0.14.0"
+  }
+}

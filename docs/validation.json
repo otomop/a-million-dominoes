@@ -1,0 +1,106 @@
+{
+ "net": "final.npz",
+ "accuracy_heldout": 0.9705063995548135,
+ "counts": {
+  "dominoes": 1026525,
+  "edges": 2050274,
+  "starters": 3506,
+  "byKind": {
+   "input": 3506,
+   "gate": 85703,
+   "wire": 407348,
+   "inh-feed": 33656,
+   "crossover": 48990,
+   "split": 7524,
+   "align": 11000,
+   "lane": 219286,
+   "lane-start": 4150,
+   "arena": 20732,
+   "feeder": 24130,
+   "panel-feed": 5100,
+   "panel-off": 114246,
+   "panel-on": 41154
+  },
+  "gates": {
+   "rinh": 2024,
+   "merge": 1628,
+   "split": 646,
+   "swap": 1678,
+   "q_total": 19598,
+   "q_max": 218
+  },
+  "tree": {
+   "and_inst": 1926,
+   "xor_inst": 377,
+   "leaves": 2803
+  }
+ },
+ "calibration": {
+  "lane_spread_s": 0.023200000000002774,
+  "self_lead_s": [
+   -0.2757,
+   -0.2726,
+   -0.2735,
+   -0.2758,
+   -0.2764,
+   -0.2763,
+   -0.2761,
+   -0.2783,
+   -0.2767,
+   -0.2776
+  ]
+ },
+ "validation": {
+  "nominal": {
+   "n": 1797,
+   "agree": 1797,
+   "none": 0,
+   "multi": 0,
+   "bad": [],
+   "last_s": 566.5787
+  },
+  "jitter1": {
+   "n": 1797,
+   "agree": 1797,
+   "none": 0,
+   "multi": 0,
+   "bad": [],
+   "last_s": 566.5732
+  },
+  "jitter2": {
+   "n": 1797,
+   "agree": 1795,
+   "none": 0,
+   "multi": 2,
+   "bad": [
+    [
+     731,
+     [
+      7,
+      8
+     ],
+     7
+    ],
+    [
+     922,
+     [
+      7,
+      8
+     ],
+     7
+    ]
+   ],
+   "last_s": 566.5579
+  }
+ },
+ "hub_radius_m": 55.30482360204331,
+ "field_m": [
+  283.4283942296432,
+  243.7232646149792
+ ],
+ "timing": {
+  "delta_s": 6.2732024762015595,
+  "eps_s": 0.55,
+  "all_short_s": 247.913
+ }
+}
